@@ -1,0 +1,854 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+      background-image: radial-gradient(at 100% 0%, hsla(221, 83%, 53%, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, hsla(260, 83%, 53%, 0.05) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+  }
+
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-white/20 dark:border-gray-800/20;
+  }
+
+  .glass-card {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/20 dark:border-gray-800/20 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .glass-input {
+    @apply bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border border-white/20 dark:border-gray-800/20 focus:bg-white/70 dark:focus:bg-gray-900/70 transition-all duration-300;
+  }
+
+  /* Estilos para el arrastre */
+  @layer utilities {
+    .task-dragging {
+      @apply opacity-50 shadow-lg;
+    }
+
+    .column-drag-over {
+      @apply bg-muted/50 transition-colors duration-200;
+    }
+
+    /* Animaciones */
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Estilos para el placeholder de arrastre */
+    .drag-placeholder {
+      @apply border-2 border-dashed border-primary rounded-md h-24 bg-primary/5 animate-pulse-slow;
+    }
+  }
+
+  /* Mejoras para el modo claro */
+  .light .task-card {
+    @apply shadow-sm hover:shadow-md;
+  }
+
+  .light .calendar-day {
+    @apply border-gray-200;
+  }
+
+  .light .calendar-day.today {
+    @apply border-primary;
+  }
+
+  .light .calendar-day:hover {
+    @apply bg-gray-50;
+  }
+
+  /* Mejoras para el modo oscuro */
+  .dark .task-card {
+    @apply border-gray-800 hover:border-gray-700;
+  }
+
+  .dark .calendar-day {
+    @apply border-gray-800;
+  }
+
+  .dark .calendar-day.today {
+    @apply border-primary;
+  }
+
+  .dark .calendar-day:hover {
+    @apply bg-gray-800;
+  }
+
+  /* Multi-day event styles */
+  .multi-day-event {
+    position: relative;
+    z-index: 10;
+  }
+
+  .multi-day-event-start {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 0;
+  }
+
+  .multi-day-event-middle {
+    border-radius: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .multi-day-event-end {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 0;
+  }
+
+  /* Animaciones y transiciones */
+  .animate-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Personalización de scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Estilos para el selector de colores personalizado */
+  .color-selector {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .color-option {
+    @apply w-8 h-8 rounded-full cursor-pointer transition-all duration-200 flex items-center justify-center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .color-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .color-option.selected {
+    @apply ring-2 ring-offset-2 ring-black dark:ring-white;
+  }
+
+  .color-picker-wrapper {
+    @apply relative;
+  }
+
+  .color-picker-button {
+    @apply w-8 h-8 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200;
+  }
+
+  .color-picker-input {
+    @apply absolute opacity-0 w-8 h-8 cursor-pointer;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  /* Estilos para las tarjetas */
+  .card-hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-hover-effect:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Estilos para los botones */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700;
+  }
+
+  /* Estilos para el calendario */
+  .calendar-container {
+    @apply rounded-xl overflow-hidden;
+  }
+
+  .calendar-header {
+    @apply bg-muted/30 backdrop-blur-sm;
+  }
+
+  .calendar-day-modern {
+    @apply rounded-lg border border-gray-200/50 dark:border-gray-800/50 transition-all duration-200 hover:border-primary/50 p-2 m-0.5;
+  }
+
+  .calendar-day-header {
+    @apply text-center py-4 text-sm font-medium;
+  }
+
+  .calendar-event {
+    @apply rounded-md px-2 py-1 text-xs font-medium truncate shadow-sm transition-all duration-200;
+  }
+
+  .calendar-event:hover {
+    transform: translateY(-1px);
+    @apply shadow;
+  }
+
+  /* Estilos para la navegación inferior */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t z-50 py-2 px-4;
+  }
+
+  .bottom-nav-content {
+    @apply container mx-auto flex items-center justify-between;
+  }
+
+  /* Ajustes para el calendario */
+  .calendar-grid {
+    @apply grid grid-cols-7 gap-1.5;
+  }
+
+  /* Ajuste para el modal de eliminación */
+  .delete-dialog-overlay {
+    @apply fixed inset-0 bg-black/50 z-50;
+  }
+
+  /* Ajuste para mantener la interactividad después de eliminar */
+  .interactive-after-delete {
+    @apply pointer-events-auto;
+  }
+
+  /* Ajuste para el botón secundario en el creador de temas */
+  .theme-button-secondary {
+    @apply bg-background text-foreground border border-input hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Animaciones para elementos interactivos */
+  .interactive-element {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Mejoras de accesibilidad */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+
+  /* Estilos para tooltips mejorados */
+  .tooltip-enhanced {
+    @apply z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2;
+  }
+
+  /* Añadir estilos para mejorar la experiencia de arrastrar y soltar */
+
+  /* Estilos para elementos arrastrables */
+  .draggable-item {
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  }
+
+  .draggable-item:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .draggable-item.dragging {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  /* Eliminar estilos relacionados con el cursor de arrastre */
+  /* Estilos para el cursor de arrastre */
+  .drag-handle {
+    cursor: default; /* Cambiado de grab a default */
+  }
+
+  .drag-handle:active {
+    cursor: default; /* Cambiado de grabbing a default */
+  }
+
+  /* Estilos para el área de destino */
+  .drop-target {
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  .drop-target.active {
+    border-color: var(--primary);
+    background-color: rgba(var(--primary), 0.05);
+  }
+
+  /* Mejorar el espaciado en las tarjetas de tareas */
+  .task-card {
+    @apply shadow-sm hover:shadow-md;
+    cursor: pointer;
+  }
+
+  .task-card:active {
+    cursor: grabbing;
+  }
+
+  /* Añadir estilos específicos para mejorar el centrado vertical del texto en las tarjetas */
+  .task-card .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .task-card h4 {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .task-card .card-content {
+    padding-left: 1rem;
+  }
+
+  /* Ajustar el espaciado para tarjetas sin descripción */
+  .task-card-no-description {
+    padding-bottom: 0.5rem;
+  }
+
+  /* Mejorar el espaciado en las tarjetas de tareas */
+  .task-card-compact {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .task-card-compact .card-content {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  /* Ajustar el espaciado para tarjetas sin descripción */
+
+  /* Hacer que el botón de añadir sea perfectamente redondo */
+  .add-button {
+    border-radius: 9999px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mejorar el espaciado entre elementos de los pasos */
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+  }
+
+  .step-item .step-text {
+    padding-left: 0.5rem;
+    flex: 1;
+  }
+
+  /* Añadir estilos para menús más anchos */
+  .wide-dropdown-content {
+    min-width: 220px !important;
+    max-width: 320px !important;
+  }
+
+  /* Añadir estilos para menús largos con scroll */
+  .scrollable-dropdown-content {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  /* Mejorar compatibilidad con pantallas anchas */
+  @media (min-width: 1400px) {
+    .container {
+      max-width: 95%;
+    }
+
+    .task-board-container {
+      max-width: 95%;
+      margin: 0 auto;
+    }
+  }
+
+  /* Estilos para edición rápida de texto */
+  .editable-text {
+    cursor: text;
+  }
+
+  .editable-text-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+  }
+
+  .editable-text-input:focus {
+    outline: none;
+    border-bottom: 1px dashed var(--primary);
+  }
+
+  /* Hacer que los eventos en el panel lateral sean clickables */
+  .calendar-event-clickable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .calendar-event-clickable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .calendar-event-clickable:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Hacer los paneles más anchos */
+  .task-column {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Ajustar el contenedor para pantallas más grandes */
+  @media (min-width: 1400px) {
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Ajustar la altura máxima de las columnas para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .task-column .flex-1 {
+      max-height: calc(100vh - 300px);
+    }
+  }
+
+  /* Ajustar el contenedor del tablero */
+  .task-board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    align-items: start; /* Esto permite que cada columna tenga su propia altura */
+  }
+
+  @media (min-width: 768px) {
+    .task-board-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Ajustar el contenedor de tareas para que tenga altura máxima pero permita scroll */
+  .task-column .flex-1 {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+  }
+
+  /* Mejorar la interactividad de los elementos de menú desplegable */
+  .dropdown-menu-item {
+    @apply cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Mejoras para efectos de blur en menús y elementos flotantes */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(16px);
+  }
+
+  .backdrop-blur-2xl {
+    backdrop-filter: blur(24px);
+  }
+
+  /* Mejoras para menús desplegables */
+  .dropdown-menu-blur {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-gray-800/50 shadow-lg;
+  }
+
+  /* Efecto de hover mejorado para botones en la barra de navegación */
+  .nav-button-hover {
+    @apply hover:bg-white/10 dark:hover:bg-gray-700/20 transition-all duration-300;
+  }
+
+  /* Contenedor de navegación con efecto de vidrio mejorado */
+  .nav-glass-container {
+    @apply bg-white/10 dark:bg-gray-800/20 backdrop-blur-lg rounded-full p-1 shadow-sm;
+  }
+
+  /* Estilos mejorados para el selector de vista */
+  .view-selector {
+    @apply flex items-center bg-white/10 dark:bg-gray-800/20 backdrop-blur-lg rounded-full p-1 shadow-sm overflow-hidden;
+    position: relative;
+  }
+
+  .view-selector-button {
+    @apply flex items-center justify-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300;
+    position: relative;
+    z-index: 10;
+  }
+
+  .view-selector-indicator {
+    @apply absolute inset-y-1 rounded-full bg-primary shadow-sm;
+    transition: all 0.3s ease;
+    z-index: 0;
+  }
+}
+
+/* Dropdown animation */
+@keyframes dropdownEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dropdownExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+/* Enhanced blur effects */
+.dropdown-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.dark .dropdown-blur {
+  background-color: rgba(17, 24, 39, 0.8);
+}
+
+/* Dropdown animation classes */
+.dropdown-enter {
+  animation: dropdownEnter 0.2s ease-out forwards;
+}
+
+.dropdown-exit {
+  animation: dropdownExit 0.2s ease-out forwards;
+}
+
+/* Add these animation styles for the filter panel */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-panel-enter {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+/* Prevent propagation from color picker container */
+.color-picker-container {
+  position: relative;
+}
+
+.color-picker-container * {
+  position: relative;
+  z-index: 5;
+}
+
+/* Al final del archivo, añadir estas reglas para controlar la selección de texto y el cursor */
+
+/* Deshabilitar selección de texto por defecto */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+/* Permitir selección de texto en elementos específicos */
+input,
+textarea,
+[contenteditable="true"],
+.editable-text,
+.editable-text-input,
+code,
+pre {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+/* Asegurar que los enlaces tengan el cursor correcto */
+a,
+button,
+.cursor-pointer,
+[role="button"],
+.interactive-element,
+.color-option,
+.calendar-event-clickable,
+.task-card {
+  cursor: pointer;
+}
+
+/* Cursor de arrastre para elementos arrastrables */
+[draggable="true"] {
+  cursor: grab;
+}
+
+[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* Cursor de redimensionamiento para bordes y esquinas */
+.resize-handle {
+  cursor: se-resize;
+}
+
+/* Cursor de ayuda para elementos con información adicional */
+[data-tooltip],
+[aria-describedby] {
+  cursor: help;
+}
+
+/* Cursor de texto para elementos editables */
+.editable-content {
+  cursor: text;
+}
+
+/* Añadir estilos para los diálogos más grandes */
+.dialog-expanded {
+  max-width: calc(100% - 2rem) !important;
+  width: calc(950px + 100px) !important;
+  max-height: calc(90vh + 200px) !important;
+}
+
+/* Mejorar el espaciado interno de los diálogos */
+.dialog-expanded .dialog-content {
+  padding: 1.5rem !important;
+}
+
+/* Asegurar que los diálogos se centren correctamente */
+@media (max-width: 640px) {
+  .dialog-expanded {
+    width: 95% !important;
+  }
+}
+
+/* Enhanced dialog content styles */
+.dialog-content-enhanced {
+  padding: 24px;
+}
+
+/* Improve the readability and spacing of form inputs */
+.form-row {
+  margin-bottom: 1.5rem;
+}
+
+/* Enhanced input and form elements */
+.glass-input:focus {
+  box-shadow: 0 0 0 2px rgba(var(--primary), 0.2);
+}
+
+/* Improved keyboard navigation indicators */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Enhanced transitions for interactive elements */
+.interactive-element {
+  transition: all 0.2s ease-in-out;
+}
+.interactive-element:hover {
+  transform: translateY(-2px);
+}
+
+/* Improved calendar view */
+.calendar-day-modern {
+  min-height: 120px; /* Increase minimum height for better visibility */
+}
+
+/* Keyboard shortcut indicators */
+.shortcut-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+/* Enhanced task step list with more emphasis on active items */
+.task-step {
+  transition: background-color 0.2s ease;
+}
+.task-step:hover {
+  background-color: hsl(var(--muted));
+}
+.task-step.active {
+  border-left: 3px solid hsl(var(--primary));
+  padding-left: 8px;
+}
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus indicators for better accessibility */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Add these styles at the end of your globals.css file */
+
+/* Undo/Redo button styles */
+.undo-redo-button {
+  @apply rounded-full hover:bg-white/10 dark:hover:bg-gray-700/20 transition-all duration-200;
+}
+
+.undo-redo-button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Animation for undo/redo operations */
+@keyframes undoRedoHighlight {
+  0% {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.undo-redo-highlight {
+  animation: undoRedoHighlight 1s ease-out;
+}
+
+/* Estilos para el nuevo selector de vista sin espacios entre botones */
+.view-selector-container {
+  display: flex;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.view-selector-container button {
+  position: relative;
+  z-index: 2;
+  border-radius: 9999px;
+  transition: color 0.3s ease;
+}
+
+.view-selector-indicator {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  border-radius: 9999px;
+  transition: left 0.3s ease, right 0.3s ease;
+  z-index: 1;
+}
